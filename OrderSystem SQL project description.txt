@@ -1,0 +1,49 @@
+Design Description: 
+
+Two .java files in the delivered file, one for the Project construction, one for prototype build and tests. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Part 1, projectone_ordersystem.java
+
+This is the .java for building the database and construct all the necessary tables, functions and triggers. 
+
+Tables: "InventoryRecord", "OrderRecord", "Orders", "Product", "CUSTOMER"
+
+The names of the tables are self-explanatory. Internal relations are as below:
+"Orders" table has FK to "CUSTOMER". 
+"InventoryRecord" table has FK to "Product". 
+"OrderRecord" table has FKs to "Product" & "Orders". 
+
+The working schema is as below. 
+
+1, Database will take DML to build Product, Customer information tables. In both tables, IDs are automaticaly generated and used as PK. 
+
+2, InventoryRecord is updated by database DML manage when product inventory number and price changed. 
+Alse when an OrderRecord is made, the corresponding Inventory tuple changes its inventory number (AvailableNum) automatically by a trigger. The AvailableNum attribute is set to be no less than 0 by a constraint. 
+
+3, Orders is created by DML. Logically Order tuple shall be supported by 0 - many OrderRecord tuples, as the 
+actual order-product of the order. 
+
+4, OrderRecord tuple has FK to an Order and a product SKU to InventoryRecord. When inserting an OrderRecord tuple, the trigger will handle the inventory available number decrementing. If Inventory available number will be decremented below 0, the InventoryRecord constraint will fail the trigger therefore fail the OrderRecord insert, and raised an alert message. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Part 2, Test_SQLProject.java
+
+This is the .java for building the prototype and test cases for the constructed database. 
+
+This includes these operations: 
+
+1, reading txt file to insert valid customer tuples
+2, reading txt file to insert valid product tuples
+3, reading txt file to insert valid inventory tuples
+4, inserting one valid order to insert one valid order item. 
+5, checking if current tables contains the correct tuples 
+6, inserting one valid orderRecord tuple 
+7, check if the inventory table has been triggered and decremented correctly. 
+8, inserting one invalid orderRecord tuple(too big value, not able to cover by current inventory)
+9, check if the insert is failed by the Trigger
+10, check if the inventory table stays unchanged with the invalid orderRecord input. 
+
+(Note: if running this test.java, the two lines of 147/148 and 174/175 have to been altertnatively commented, so that the automatically generating ID is turned off, for the easiness of input control)
