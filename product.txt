@@ -1,0 +1,2 @@
+Aproduct	OneAKindOfProduct	AA-111112-A1
+Bproduct	OneBKindOfProduct	BB-112222-B2
